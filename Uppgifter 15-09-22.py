@@ -4,7 +4,6 @@ Created on Wed Sep 16 15:07:30 2015
 
 @author: 97marcar
 """
-from random import *
 
 class Crop:
   """A generic food crop"""
@@ -83,74 +82,18 @@ class Crop:
   def set_type(self,new_type):
     """sets the type of the seed """
     self._type = new_type
-    
-  def _update_status(self):
-    if self._growth > 15:
-      self._status = "Old"
-    elif self._growth > 10:
-      self._status = "Mature"
-    elif self._growth > 5:
-      self._status = "Young"
-    elif self._growth > 0:
-      self._status = "Seedling"
-    elif self._status == 0:
-      self._status = "Seed"
-      
-    
-  def grow(self, light, water):
-    if light >= self._light_need and water >= self._water_need:
-      self._growth += self._growth_rate
-    #increment days growing
-    self._days_growing += 1
-    #update status
-    self._update_status()
-    
 
 
-def auto_grow(crop, days):
-  for day in range(days):
-    light = randint(1,10)
-    water = randint(1,10)
-    crop.grow(light, water)
-    
-def manual_grow(crop):
-  valid = False
-  while not valid:
-    try:
-      light = int(input("Please enter a light value (1-10): "))
-      if 1 <= light <= 10:
-        valid = True
-      else:
-        print("not a valid number please choose a number between 1 and 10")
-    except ValueError:
-       print("not a valid number please choose a number between 1 and 10")
-       
-  valid = False
-  while not valid:
-    try:
-      water = int(input("Please enter a water value (1-10): "))
-      if 1 <= water <= 10:
-        valid = True
-      else:
-        print("not a valid number please choose a number between 1 and 10")
-    except ValueError:
-       print("not a valid number please choose a number between 1 and 10")
-  crop.grow(light, water)
-     
-     
+
+
+
 def main():
    #instaniate the class
    new_crop = Crop(1,4,3)
-   
    print(new_crop.get_status())
    print(new_crop.get_growth())
-   
    print(new_crop.get_light_need())
    print(new_crop.get_water_need())
-   print(new_crop.report())
-   print(new_crop.needs())
-  
-   manual_grow(new_crop)
    print(new_crop.report())
    print(new_crop.needs())
    new_crop2 = Crop(2,5,7)
@@ -158,8 +101,7 @@ def main():
    print(new_crop2.get_light_need())
    print(new_crop2.get_water_need())
    
-   
-  
+   help(Crop)
    
 if __name__ == "__main__":
   main()
