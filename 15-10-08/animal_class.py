@@ -49,35 +49,76 @@ class Animals():
         
         self.update_status()
     
-    def auto_grow(self ,animal, days):
-        for n in range(days):
-            if self.type == ("Cow"):
-                self.food == randint(5,15)
-                self.water == randint(5,15)
-                animal.grow(self.food, self.water)
-            elif self.type == ("Sheep"):
-                self.food == randint(1,10)
-                self.water == randint(1,10)
-                animal.grow(self.food, self.water)
-        
+                
+def auto_grow(food, days):
+  for day in range(days):
+      if self.type == ("Cow"):
+          food == randint(5,15)
+          water == randint(5,15)
+          
+      elif self.type == ("Sheep"):
+          food == randint(1,10)
+          water == randint(1,10)
+          
+  animal.grow(food, water)
+                
+def manual_grow(animal):
+      valid = False
+      
+      while not valid:
+        try:
+          food = int(input("Please enter a food value (5-20): "))
+          if 5 <= food <= 20:
+            valid = True
+          else:
+            print("not a valid number please choose a number between 5 and 20")
+        except ValueError:
+           print("not a valid number please choose a number between 5 and 20")
+           
+      valid = False
+      while not valid:
+        try:
+          water = int(input("Please enter a water value (5-20): "))
+          if 5 <= water <= 20:
+            valid = True
+          else:
+            print("not a valid number please choose a number between 5 and 20")
+        except ValueError:
+           print("not a valid number please choose a number between 5 and 20")
+      animal.grow(food, water)
     
 
         
 def display_menu():
     print("Here you can experiment on the animals.")
     print()
-    print("1. Feed automaticlly for 30days")
+    print("1. Feed automaticlly for 30 days")
     print("2. Feed manually for 1 day")
+    print("3. Report")
     print("0. Exit the farm")
     
 def manage_animal(animal):
+    noexit = False
     display_menu()
-    choice = int(input("Your choice: "))
-    if choice == 1:
-        animal.auto_grow(animal, 30)
-        print(animal.report())
-    else:
-        print("Thank you for using the experiment.")
+    while not noexit:
+        
+        choice = int(input("Your choice: "))
+        if choice == 1:
+            animal.auto_grow(animal, 30)
+            print(animal.report())
+            
+        elif choice == 2:
+            manual_grow(animal)
+            
+        elif choice == 3:
+            print(animal.report())
+            
+        elif choice == 0:
+            noexit = True
+            print("Thank you for using the experiment.")
+            
+        else:
+            print("Select a valid option.")
         
     
         
