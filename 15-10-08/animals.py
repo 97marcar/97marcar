@@ -16,23 +16,27 @@ def display_menu():
     print("2. Sheep")
     print("0. Exit the farm")
     
-def menu_choice():
+
+def select_option():
+    valid_option = False
+    while not valid_option:
+        try:
+            choice = int(input("Options selected: "))
+            if choice in (1,2):
+                valid_option = True
+            else:
+                print("enter a valid option")
+        except ValueError:
+            print("enter a valid option")
+    return choice
+    
+def create_crop():
     display_menu()
-    choice = int(input("Your choice please: "))
-    noexit = True
-    while noexit:
-        if choice == 1:
-            animal = Cow()
-            noexit = False
-        elif choice == 2:
-            animal = Sheep()
-            noexit = False
-        elif choice == 0:
-            print("Good bye.")
-            noexit = False
-        else:
-            print("Please select a vaild option.")
-        
+    choice = select_option()
+    if choice == 1:
+        animal = Cow()
+    elif choice == 2:
+        animal = Sheep()
     return animal
     
 def main():
