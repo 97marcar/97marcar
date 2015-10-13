@@ -52,14 +52,11 @@ class Animals():
                 
 def auto_grow(food, days):
   for day in range(days):
-      if self.type == ("Cow"):
           food == randint(5,15)
           water == randint(5,15)
-          
-      elif self.type == ("Sheep"):
-          food == randint(1,10)
-          water == randint(1,10)
-          
+          food == randint(1,15)
+          water == randint(1,15)
+        
   animal.grow(food, water)
                 
 def manual_grow(animal):
@@ -104,7 +101,7 @@ def manage_animal(animal):
         
         choice = int(input("Your choice: "))
         if choice == 1:
-            animal.auto_grow(animal, 30)
+            auto_grow(animal, 30)
             print(animal.report())
             
         elif choice == 2:
