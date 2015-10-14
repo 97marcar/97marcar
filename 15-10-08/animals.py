@@ -30,7 +30,7 @@ def select_option():
             print("enter a valid option")
     return choice
     
-def create_crop():
+def create_animal():
     display_menu()
     choice = select_option()
     if choice == 1:
@@ -41,7 +41,7 @@ def create_crop():
     
 def main():
     
-    animal = menu_choice()
+    animal = create_animal()
     manage_animal(animal)
     
 if __name__ == "__main__":
