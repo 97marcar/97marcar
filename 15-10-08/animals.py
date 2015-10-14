@@ -14,7 +14,6 @@ def display_menu():
     print()
     print("1. Cow")
     print("2. Sheep")
-    print("0. Exit the farm")
     
 
 def select_option():
