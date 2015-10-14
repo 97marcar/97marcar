@@ -22,8 +22,6 @@ class Sheep(Animals):
                 self.weight += self.growth_rate*1.5
             else:
                 self.weight += self.growth_rate-2
-                
-        self.days_growing += 1
         self.update_status()
         
 def main():
