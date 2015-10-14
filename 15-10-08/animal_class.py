@@ -51,13 +51,12 @@ class Animals():
     def auto_grow(self, animal, days):
         for day in range(days):
             if self.type == "Cow":
-                self.food == randint(10,20)
-                self.water == randint(10,20)
-            elif self.type == Sheep:
-                self.food == randint(1,15)
-                self.water == randint(1,15)
-                
-        animal.grow(self.food, self.water)
+                self.food = randint(10,20)
+                self.water = randint(10,20)
+            elif self.type == "Sheep":
+                self.food = randint(1,15)
+                self.water = randint(1,15)
+            self.grow(self.food, self.water)
         self.days_growing += days
                 
 def manual_grow(animal):
