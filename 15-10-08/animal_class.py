@@ -45,19 +45,20 @@ class Animals():
     def grow(self, food, water):
         if food >= self.food_need and water >= self.water_need:
             self.weight += self.growth_rate
-        self.days_growing += 1
         
         self.update_status()
     
+    def auto_grow(self, animal, days):
+        for day in range(days):
+            if self.type == "Cow":
+                self.food == randint(10,20)
+                self.water == randint(10,20)
+            elif self.type == Sheep:
+                self.food == randint(1,15)
+                self.water == randint(1,15)
                 
-def auto_grow(food, days):
-  for day in range(days):
-          food == randint(5,15)
-          water == randint(5,15)
-          food == randint(1,15)
-          water == randint(1,15)
-        
-  animal.grow(food, water)
+        animal.grow(self.food, self.water)
+        self.days_growing += days
                 
 def manual_grow(animal):
       valid = False
@@ -83,6 +84,7 @@ def manual_grow(animal):
         except ValueError:
            print("not a valid number please choose a number between 5 and 20")
       animal.grow(food, water)
+      animal.days_growing += 1
     
 
         
@@ -101,8 +103,7 @@ def manage_animal(animal):
         
         choice = int(input("Your choice: "))
         if choice == 1:
-            auto_grow(animal, 30)
-            print(animal.report())
+            animal.auto_grow(animal, 30)
             
         elif choice == 2:
             manual_grow(animal)
