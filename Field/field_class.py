@@ -37,6 +37,7 @@ class Field:
 
     def remove_animal(self, position):
         return self._animals.pop(position)
+		self._crops
 
 def display_crops(crop_list):
      print()
@@ -74,7 +75,7 @@ def select_animal(length_list):
             print("Please select a valid option.")
             return selected - 1
 
-
+			
 def harvest_crop_from_field(field):
     display_crops(field._crops)
     selected_crop = select_crop(len(field._crops))
