@@ -9,8 +9,8 @@ from animal_class import *
 
 class Sheep(Animals):
     
-    def __init__(self):
-        super().__init__(2,5,5)
+    def __init__(self, name):
+        super().__init__(2,5,5, name)
         self.type = "Sheep"
         self.weight = 20
         

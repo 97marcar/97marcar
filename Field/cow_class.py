@@ -1,32 +1,32 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Oct  8 19:28:22 2015
+Created on Thu Oct  8 19:14:40 2015
 
 @author: marcu
 """
 
 from animal_class import *
 
-class Sheep(Animals):
+class Cow(Animals):
     
-    def __init__(self):
-        super().__init__(2,5,5)
-        self.type = "Sheep"
-        self.weight = 20
+    def __init__(self, name):
+        super().__init__(5,10,10, name)
+        self.type = "Cow"
+        
         
     def grow(self, food, water):
         if food >= self.food_need and water >= self.water_need:
-            if self.status == "Youngling" and food > self.food_need:
+            if self.status == "Youngling" and food+5 >= self.food_need:
                 self.weight += self.growth_rate*2
-            elif self.status == "Young" and food >= self.food_need:
+            elif self.status == "Young" and food+5 >= self.food_need:
                 self.weight += self.growth_rate*1.5
             else:
                 self.weight += self.growth_rate
         self.update_status()
         
 def main():
-    sheep = Sheep()
-    print(sheep.report())
+    cow = Cow()
+    print(cow.report())
 
 if __name__ == "__main__":
     main()
