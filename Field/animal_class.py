@@ -41,8 +41,7 @@ class Animals():
             self.status = "Youngling"
         elif self.weight == 50:
             self.status = "Baby"
-        
-            
+             
     def grow(self, food, water):
         if food >= self.food_need and water >= self.water_need:
             self.weight += self.growth_rate
@@ -85,9 +84,7 @@ def manual_grow(animal):
            print("not a valid number please choose a number between 5 and 20")
       animal.grow(food, water)
       animal.days_growing += 1
-    
-
-        
+         
 def display_menu():
     print("Here you can experiment on the animals.")
     print()
@@ -118,10 +115,9 @@ def manage_animal(animal):
         else:
             print("Select a valid option.")
         
-    
-        
 def main():
     pass
+
     
 if __name__ == "__main__":
     main()
