@@ -37,7 +37,7 @@ class Field:
 
     def remove_animal(self, position):
         return self._animals.pop(position)
-		self._crops
+
 
 def display_crops(crop_list):
      print()
@@ -63,7 +63,7 @@ def select_crop(length_list):
             valid = True
         else:
             print("Please select a valid option.")
-            return selected - 1
+    return selected - 1
 
 def select_animal(length_list):
     valid = False
@@ -73,18 +73,18 @@ def select_animal(length_list):
             valid = True
         else:
             print("Please select a valid option.")
-            return selected - 1
+    return selected - 1
 
-			
+    
 def harvest_crop_from_field(field):
     display_crops(field._crops)
     selected_crop = select_crop(len(field._crops))
-    return field.harvest_crop(select_crop)
+    return field.harvest_crop(selected_crop)
 
 def remove_animal_from_field(field):
     display_animal(field._animals)
     selected_animal = select_animal(len(field._animals))
-    return
+    return field.remove_animal(selected_animal)
 
 def main():
     new_field = Field(5,2)
@@ -95,8 +95,7 @@ def main():
     harvest_crop_from_field(new_field)
     print(new_field._crops)
     remove_animal_from_field(new_field)
-
-    print(animals_from_field)
+    print(new_field._animals)
 
 if __name__ == "__main__":
     main()
