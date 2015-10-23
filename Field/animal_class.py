@@ -18,7 +18,7 @@ class Animals():
         self.water_need = water_need
         self.status = "baby"
         self.type = "animal"
-        self.name = "name"
+        self.name = name
         self.food = 0
         self.water = 0
         
@@ -27,7 +27,7 @@ class Animals():
         return({"food need": self.food_need, "water need": self.water_need})
         
     def report(self):
-        return({'type': self.type, 'status': self.status, 'weight': self.weight, 'days growing': self.days_growing})
+        return({'type': self.type, 'status': self.status, 'weight': self.weight, 'days growing': self.days_growing, 'namn': self.name})
         print(str(self.growth_rate()))
         
     def update_status(self):
