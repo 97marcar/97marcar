@@ -37,8 +37,17 @@ class Field:
 
     def remove_animal(self, position):
         return self._animals.pop(position)
-
-
+        
+       
+    def report_contents(self):
+        crop_report = []
+        animal_report = []
+        for crops in self._crops:
+            crop_report.append(crop.report())
+        for animal in self.animals:
+            animal_report.append(animal.report())
+        return {"crops": crop_report, "animals": animal_report}
+        
 def display_crops(crop_list):
      print()
      print("The following crops are in this field:")
@@ -75,6 +84,7 @@ def select_animal(length_list):
             print("Please select a valid option.")
     return selected - 1
 
+
     
 def harvest_crop_from_field(field):
     display_crops(field._crops)
@@ -92,10 +102,7 @@ def main():
     new_field.plant_crop(Potato())
     new_field.add_animal(Sheep("Shaun"))
     new_field.add_animal(Cow("Gretka"))
-    harvest_crop_from_field(new_field)
-    print(new_field._crops)
-    remove_animal_from_field(new_field)
-    print(new_field._animals)
-
+    report = new_field.report_contents()
+    print(report)
 if __name__ == "__main__":
     main()
