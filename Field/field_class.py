@@ -42,9 +42,9 @@ class Field:
     def report_contents(self):
         crop_report = []
         animal_report = []
-        for crops in self._crops:
+        for crop in self._crops:
             crop_report.append(crop.report())
-        for animal in self.animals:
+        for animal in self._animals:
             animal_report.append(animal.report())
         return {"crops": crop_report, "animals": animal_report}
         
@@ -104,5 +104,9 @@ def main():
     new_field.add_animal(Cow("Gretka"))
     report = new_field.report_contents()
     print(report)
+    print()
+    print(report["crops"])
+    print()
+    print(report["animals"])
 if __name__ == "__main__":
     main()
