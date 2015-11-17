@@ -17,21 +17,52 @@ class Register(QMainWindow):
     
     def initUI(self):
         """Here you create every GUI component(everything you is see)"""
-        self.frame = QWidget(self) #creates a QWidget
-        self.setCentralWidget(self.frame) #set the Central Widget to the QWidget
+        #creates a QWidget
+        self.frame = QWidget(self) 
+        #set the Central Widget to the QWidget
+        self.setCentralWidget(self.frame)
         
-        self.layout = QVBoxLayout() #Creates a Vertical boxlayout 
+        #Creates a Vertical boxlayout 
+        self.layout = QVBoxLayout() 
         
-        self.mainWindow = QTextEdit() #Creates a Text Edit window(can come to change)
-        self.layout.addWidget(self.mainWindow) #adds the mainWindow to the layout
+        #Creates a Text Edit window(can come to change)
+        self.mainWindow = QTextEdit()
+        #adds the mainWindow to the layout
+        self.layout.addWidget(self.mainWindow)
         self.mainWindow.setReadOnly(True)
         
-        self.userInput = QLineEdit() #Creates a Line edit where the user input data.
-        self.layout.addWidget(self.userInput) #adds the userInput to the layout
+        #Creates a Line edit where the user input data.
+        self.userInput = QLineEdit() 
+        #adds the userInput to the layout
+        self.layout.addWidget(self.userInput) 
         
-        self.frame.setLayout(self.layout) #Applies the layout to the frame
+        #Applies the layout to the frame
+        self.frame.setLayout(self.layout)
+        
+        #Creates the "Add" button to the window
+        self.btn_add= QPushButton('Add', self)
+        self.btn_add.clicked.connect(self.btn_add_action)
+        self.layout.addWidget(self.btn_add)
         
         
+        
+    def btn_add_action(self):
+        """..."""
+        self.addmovie_frame = QDialog()
+        self.addmovie_frame.exec_()
+        
+        
+        #Get this to work on a Dialog(this is code for a QWidget)
+        """
+        self.addmovie_layout = QGridLayout()
+        pos = [(0, 0), (0, 1), (0, 2),
+               (1, 0), (1, 1), (1, 2)]
+        self.addName = QLabel()
+        self.addNameText = QLineEdit()
+        self.addmovie_layout.addWidget(self.addName, pos[0][0], pos[0][1])
+        self.addmovie_layout.addWidget(self.addName, pos[1][0], pos[1][1])
+        self.show()"""
+       
         
         
     def run(self):
