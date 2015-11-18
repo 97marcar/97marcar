@@ -13,11 +13,12 @@ class Model:
             
             
 def main():
+    
     new_model = Model()
-    dvd = DVD("123")
-    new_model.add_movie(dvd)
-    print(dvd.info())
-    print(new_model.lista_DVD)
+    item = DVD("3h", "Interstellar", "SCI-FI", "Christoper Nolan", "2014")
+    new_model.add_movie(item)
+    print(item.info())
+    print(new_model.lista_DVD.info())
     
 if __name__ == "__main__":
     main()
