@@ -1,9 +1,13 @@
+
 import sys #system
+
 from PyQt4.QtCore import * #importing all QtCore functions
 from PyQt4.QtGui import * #importing all QtGui functions
 import model
 
+
 app = QApplication(sys.argv)
+
 
 class Register(QMainWindow):
     
@@ -13,6 +17,7 @@ class Register(QMainWindow):
         self.setWindowTitle("Register")
         self.setGeometry(300, 30, 700, 600)
         self.initUI()
+        self.popup = PopUpWindow()
     
     
     def initUI(self):
@@ -48,25 +53,33 @@ class Register(QMainWindow):
         
     def btn_add_action(self):
         """..."""
-        self.addmovie_frame = QDialog()
-        self.addmovie_frame.exec_()
+        self.popup.exec_()
         
         
-        #Get this to work on a Dialog(this is code for a QWidget)
-        """
-        self.addmovie_layout = QGridLayout()
-        pos = [(0, 0), (0, 1), (0, 2),
-               (1, 0), (1, 1), (1, 2)]
-        self.addName = QLabel()
-        self.addNameText = QLineEdit()
-        self.addmovie_layout.addWidget(self.addName, pos[0][0], pos[0][1])
-        self.addmovie_layout.addWidget(self.addName, pos[1][0], pos[1][1])
-        self.show()"""
+        
        
         
         
     def run(self):
         self.show()
         sys.exit(app.exec_())
+        
+class PopUpWindow(QDialog):
+    def __init__(self, parent=None):
+        super(PopUpWindow, self).__init__(parent)
+        self.dialogUI()
+        
+    def dialogUI(self):
+        self.Dlayout = QVBoxLayout(self)
+        self.addName = QLabel()
+        self.addNameText = QLineEdit()
+        self.Dlayout.addWidget(self.addName)
+        self.Dlayout.addWidget(self.addNameText)   
+
+        
+     
+        
+        
+
         
 Register().run()
