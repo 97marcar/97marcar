@@ -30,6 +30,12 @@ class Register(QMainWindow):
         #Creates a Vertical boxlayout 
         self.layout = QVBoxLayout()
         
+        #Creates a topmenu
+        self.topmenu = self.menuBar()
+        self.about = self.topmenu.addMenu("About")
+        self.aboutText = QAction("Made by Marcus Carlsson", self)
+        self.about.addAction(self.aboutText)
+        
         #Creates a Text Edit window(can come to change)
         self.mainWindow = QTextEdit()
         
@@ -77,6 +83,7 @@ class PopUpWindow(QDialog):
         super(PopUpWindow, self).__init__(parent)
         self.setGeometry(300, 30, 700, 600)
         self.dialogUI()
+        self.setWindowTitle(selectedFormat)
         
         
     def dialogUI(self):
@@ -104,13 +111,12 @@ class PopUpWindow(QDialog):
         
         if selectedFormat == "DVD":
             self.addUnique = QLabel("Length: ")
-            self.addUniqueText = QLineEdit()
         elif selectedFormat == "Blueray":
             self.addUnique = QLabel("Resolution: ")
-            self.addUniqueText = QLineEdit()
         elif selectedFormat == "VHS":
             self.addUnique = QLabel("Color?: ")
-            self.addUniqueText = QLineEdit()
+        
+        self.addUniqueText = QLineEdit()
             
         self.btnQDialog = QPushButton("Add", self)
         self.btnQDialog.clicked.connect(self.btnQDialog_action)
@@ -128,12 +134,14 @@ class PopUpWindow(QDialog):
         self.Dlayout.addWidget(self.btnQDialog, pos[10][0], pos[1][1])
 
     def btnQDialog_action(self):
-        self.stringName = str(self.addName.text())
-        self.stringGenre = str(self.addGenre.text())
-        self.stringDirector = str(self.addDirector.text())
-        self.stringYear = str(self.addYear.text())
-        self.stringUnique = str(self.addUnique.text())
-        print("123")
+        self.stringName = str(self.addNameText.text())
+        self.stringGenre = str(self.addGenreText.text())
+        self.stringDirector = str(self.addDirectorText.text())
+        self.stringYear = str(self.addYearText.text())
+        self.stringUnique = str(self.addUniqueText.text())
+        
+        model.create_item(selectedFormat, self.stringUnique, self.stringName, self.stringGenre, self.stringDirector, self.stringYear)
+       
         
      
         
