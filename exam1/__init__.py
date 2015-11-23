@@ -8,6 +8,7 @@ from model import *
 app = QApplication(sys.argv)
 
 model = Model()
+selectedFormat = "Blueray"
 
 class Register(QMainWindow):
     
@@ -17,7 +18,7 @@ class Register(QMainWindow):
         self.setWindowTitle("Register")
         self.setGeometry(300, 30, 700, 600)
         self.initUI()
-        self.popup = PopUpWindow()
+        
     
     def initUI(self):
         """Here you create every GUI component(everything you is see)"""
@@ -27,10 +28,11 @@ class Register(QMainWindow):
         self.setCentralWidget(self.frame)
         
         #Creates a Vertical boxlayout 
-        self.layout = QVBoxLayout() 
+        self.layout = QVBoxLayout()
         
         #Creates a Text Edit window(can come to change)
         self.mainWindow = QTextEdit()
+        
         #adds the mainWindow to the layout
         self.layout.addWidget(self.mainWindow)
         self.mainWindow.setReadOnly(True)
@@ -43,13 +45,27 @@ class Register(QMainWindow):
         #Applies the layout to the frame
         self.frame.setLayout(self.layout)
         
+        #Creates a dropdown menu so you can choose format
+        self.dropDown = QComboBox(self)
+        self.dropDown.addItem("Blueray")
+        self.dropDown.addItem("DVD")
+        self.dropDown.addItem("VHS")
+        self.layout.addWidget(self.dropDown)
+        self.dropDown.activated[str].connect(self.whenActivated)
+        
         #Creates the "Add" button to the window
         self.btn_add = QPushButton('Add', self)
         self.btn_add.clicked.connect(self.btn_add_action)
         self.layout.addWidget(self.btn_add)
+        
+    def whenActivated(self, itemFormat):
+        global selectedFormat
+        selectedFormat = itemFormat
+        
          
     def btn_add_action(self):
         """..."""
+        self.popup = PopUpWindow()
         self.popup.exec_()
         
     def run(self):
@@ -85,15 +101,17 @@ class PopUpWindow(QDialog):
         self.addDirectorText = QLineEdit()
         self.addYear = QLabel("Year: ")
         self.addYearText = QLineEdit()
-        if model.item.movie_type == "DVD":
+        
+        if selectedFormat == "DVD":
             self.addUnique = QLabel("Length: ")
             self.addUniqueText = QLineEdit()
-        elif self.model.item.movie_type == "BR":
+        elif selectedFormat == "Blueray":
             self.addUnique = QLabel("Resolution: ")
             self.addUniqueText = QLineEdit()
-        elif self.model.item.movie_type == "VHS":
+        elif selectedFormat == "VHS":
             self.addUnique = QLabel("Color?: ")
             self.addUniqueText = QLineEdit()
+            
         self.btnQDialog = QPushButton("Add", self)
         self.btnQDialog.clicked.connect(self.btnQDialog_action)
             
@@ -110,6 +128,11 @@ class PopUpWindow(QDialog):
         self.Dlayout.addWidget(self.btnQDialog, pos[10][0], pos[1][1])
 
     def btnQDialog_action(self):
+        self.stringName = str(self.addName.text())
+        self.stringGenre = str(self.addGenre.text())
+        self.stringDirector = str(self.addDirector.text())
+        self.stringYear = str(self.addYear.text())
+        self.stringUnique = str(self.addUnique.text())
         print("123")
         
      
