@@ -44,7 +44,7 @@ class Register(QMainWindow):
         self.frame.setLayout(self.layout)
         
         #Creates the "Add" button to the window
-        self.btn_add= QPushButton('Add', self)
+        self.btn_add = QPushButton('Add', self)
         self.btn_add.clicked.connect(self.btn_add_action)
         self.layout.addWidget(self.btn_add)
          
@@ -73,7 +73,9 @@ class PopUpWindow(QDialog):
                 (5, 0), (5, 5),
                 (6, 0), (6, 6),
                 (7, 0), (7, 7),
-                (8, 0), (8, 8),]
+                (8, 0), (8, 8),
+                (9, 0), (9, 9),
+                (10, 0), (10, 10)]
                 
         self.addName = QLabel("Name: ")
         self.addNameText = QLineEdit()
@@ -92,6 +94,8 @@ class PopUpWindow(QDialog):
         elif self.model.item.movie_type == "VHS":
             self.addUnique = QLabel("Color?: ")
             self.addUniqueText = QLineEdit()
+        self.btnQDialog = QPushButton("Add", self)
+        self.btnQDialog.clicked.connect(self.btnQDialog_action)
             
         self.Dlayout.addWidget(self.addName, pos[0][0], pos[0][1])
         self.Dlayout.addWidget(self.addNameText, pos[1][0], pos[1][1])
@@ -102,8 +106,11 @@ class PopUpWindow(QDialog):
         self.Dlayout.addWidget(self.addYear, pos[6][0], pos[0][1])
         self.Dlayout.addWidget(self.addYearText, pos[6][0], pos[1][1])  
         self.Dlayout.addWidget(self.addUnique, pos[8][0], pos[0][1])
-        self.Dlayout.addWidget(self.addUniqueText, pos[8][0], pos[1][1])  
+        self.Dlayout.addWidget(self.addUniqueText, pos[8][0], pos[1][1])
+        self.Dlayout.addWidget(self.btnQDialog, pos[10][0], pos[1][1])
 
+    def btnQDialog_action(self):
+        print("123")
         
      
         
