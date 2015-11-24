@@ -29,7 +29,8 @@ class Register(QMainWindow):
         
         #Creates a Vertical boxlayout 
         self.layout = QVBoxLayout()
-        
+        self.layout.addWidget(QLabel("Format"+2*"\t"+"Name"+2*"\t"+\
+        "Genre"+2*"\t"+"Director"+2*"\t"+"Year"+2*"\t"+"Res, Length or Color"))
         #Creates a topmenu
         self.topmenu = self.menuBar()
         self.about = self.topmenu.addMenu("About")
@@ -42,11 +43,6 @@ class Register(QMainWindow):
         #adds the mainWindow to the layout
         self.layout.addWidget(self.mainWindow)
         self.mainWindow.setReadOnly(True)
-        
-        #Creates a Line edit where the user input data.
-        self.userInput = QLineEdit() 
-        #adds the userInput to the layout
-        self.layout.addWidget(self.userInput) 
         
         #Applies the layout to the frame
         self.frame.setLayout(self.layout)
@@ -68,6 +64,14 @@ class Register(QMainWindow):
         global selectedFormat
         selectedFormat = itemFormat
         
+    def update(self):
+        self.mainWindow.clear()
+        lista = model.get_item()
+        for item in lista:
+            self.mainWindow.append(item.movie_type + "\t" + \
+            item.name + "\t" + item.genre + "\t" + \
+            item.director + "\t" + item.year + "\t" + \
+            item.resolution)
          
     def btn_add_action(self):
         """..."""
@@ -77,6 +81,8 @@ class Register(QMainWindow):
     def run(self):
         self.show()
         sys.exit(app.exec_())
+        
+register = Register()
 
 class PopUpWindow(QDialog):
     def __init__(self, parent=None):
@@ -141,11 +147,11 @@ class PopUpWindow(QDialog):
         self.stringUnique = str(self.addUniqueText.text())
         
         model.create_item(selectedFormat, self.stringUnique, self.stringName, self.stringGenre, self.stringDirector, self.stringYear)
-       
+        register.update()
         
      
         
         
 
     
-Register().run()
+register.run()
