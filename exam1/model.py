@@ -16,13 +16,17 @@ class Model:
     def create_item(self, movie_type, unique, name, genre, director, year):
         if movie_type == "DVD":
             self.dvd = DVD(unique, name, genre, director, year)
+            self.lista_DVD.append(self.dvd)
             print(self.dvd.info())
         if movie_type == "Blueray":
             self.br = BR(unique, name, genre, director, year)
+            self.lista_BR.append(self.br)
             print(self.br.info())
         if movie_type == "VHS":
             self.vhs = VHS(unique, name, genre, director, year)
+            self.lista_VHS.append(self.vhs)
             print(self.vhs.info())
-        
-        self.item = DVD("3h", "Interstellar", "SCI-FI", "Christoper Nolan", "2014")
-        self.add_movie(self.item)
+            
+    def get_item(self):
+        return self.lista_BR
+            
