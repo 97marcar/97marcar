@@ -24,6 +24,14 @@ class Model:
             self.lista_VHS.append(self.vhs)
             print(self.vhs.info())
             
+    def edit_item(self, movie_type, unique, name, genre, director, year, index):
+        if movie_type == "DVD":
+            self.lista_DVD[index] = DVD(unique, name, genre, director, year)
+        if movie_type == "Blueray":
+            self.lista_BR[index] = BR(unique, name, genre, director, year)
+        if movie_type == "VHS":
+            self.lista_VHS[index] = VHS(unique, name, genre, director, year)
+            
     def get_itemsBR(self):
         return self.lista_BR
         
