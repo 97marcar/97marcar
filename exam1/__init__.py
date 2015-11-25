@@ -25,6 +25,7 @@ class Register(QMainWindow):
         self.updateDVD()
         self.updateVHS()
         
+        
     
     def initUI(self):
         """Here you create every GUI component(everything you is see)"""
@@ -38,17 +39,17 @@ class Register(QMainWindow):
         self.layout = QVBoxLayout()
         
         #Creates a gridlayout and adds it to the VBoxLayout
-        self.label_layout = QGridLayout()
-        self.layout.addLayout(self.label_layout)
-        self.label_layout.setSpacing(10)
+        self.gridlayout = QGridLayout()
+        self.layout.addLayout(self.gridlayout)
+        self.gridlayout.setSpacing(10)
         
         #Adds the objects to the gridlayout
-        self.label_layout.addWidget(QLabel("Format"), 1, 0)
-        self.label_layout.addWidget(QLabel("Name"), 1, 1)
-        self.label_layout.addWidget(QLabel("Genre"), 1, 2)
-        self.label_layout.addWidget(QLabel("Director"), 1, 3)
-        self.label_layout.addWidget(QLabel("Year"), 1, 4)
-        self.label_layout.addWidget(QLabel("Res, Length or Color"), 1, 5)
+        self.gridlayout.addWidget(QLabel("Format"), 1, 0)
+        self.gridlayout.addWidget(QLabel("Name"), 1, 1)
+        self.gridlayout.addWidget(QLabel("Genre"), 1, 2)
+        self.gridlayout.addWidget(QLabel("Director"), 1, 3)
+        self.gridlayout.addWidget(QLabel("Year"), 1, 4)
+        self.gridlayout.addWidget(QLabel("Res, Length or Color"), 1, 5)
         
         #Creates a topmenu
         self.topmenu = self.menuBar()
@@ -65,12 +66,12 @@ class Register(QMainWindow):
         self.mainWindow5 = QTextEdit()
         
         #adds the mainWindow to the layout
-        self.label_layout.addWidget(self.mainWindow0, 2, 0)
-        self.label_layout.addWidget(self.mainWindow1, 2, 1)
-        self.label_layout.addWidget(self.mainWindow2, 2, 2)
-        self.label_layout.addWidget(self.mainWindow3, 2, 3)
-        self.label_layout.addWidget(self.mainWindow4, 2, 4)
-        self.label_layout.addWidget(self.mainWindow5, 2, 5)
+        self.gridlayout.addWidget(self.mainWindow0, 2, 0)
+        self.gridlayout.addWidget(self.mainWindow1, 2, 1)
+        self.gridlayout.addWidget(self.mainWindow2, 2, 2)
+        self.gridlayout.addWidget(self.mainWindow3, 2, 3)
+        self.gridlayout.addWidget(self.mainWindow4, 2, 4)
+        self.gridlayout.addWidget(self.mainWindow5, 2, 5)
         self.mainWindow0.setReadOnly(True)
         self.mainWindow1.setReadOnly(True)
         self.mainWindow2.setReadOnly(True)
@@ -87,17 +88,26 @@ class Register(QMainWindow):
         self.dropDown.addItem("Blueray")
         self.dropDown.addItem("DVD")
         self.dropDown.addItem("VHS")
-        self.layout.addWidget(self.dropDown)
+        self.gridlayout.addWidget(self.dropDown, 3, 0)
         self.dropDown.activated[str].connect(self.whenActivated)
         
         #Creates the "Add" button to the window
         self.btn_add = QPushButton('Add', self)
         self.btn_add.clicked.connect(self.btn_add_action)
-        self.layout.addWidget(self.btn_add)
+        self.gridlayout.addWidget(self.btn_add,3, 1)
         
-        self.btn_restore = QPushButton('restore', self)
-        self.btn_restore.clicked.connect(self.btn_restore_action)
-        self.layout.addWidget(self.btn_restore)
+        self.spinbox = QSpinBox()
+        self.spinbox.setMaximum(9999)
+        self.gridlayout.addWidget(self.spinbox, 3, 2)        
+        
+        self.btn_edit = QPushButton('Edit', self)
+        self.btn_edit.clicked.connect(self.btn_edit_action)
+        self.gridlayout.addWidget(self.btn_edit, 3, 3)
+        
+        self.btn_remove = QPushButton('Remove', self)
+        self.btn_remove.clicked.connect(self.btn_remove_action)
+        self.gridlayout.addWidget(self.btn_remove, 3, 4)
+        
         
     def whenActivated(self, itemFormat):
         global selectedFormat
@@ -146,16 +156,30 @@ class Register(QMainWindow):
     def btn_add_action(self):
         """..."""
         self.popup = PopUpWindow()
+        self.popup.edit = False
         self.popup.exec_()
         
-    def btn_restore_action(self):
+    def btn_edit_action(self):
         """..."""
-        model.get_saveBR()
-        model.get_saveDVD()
-        model.get_saveVHS()
-        register.updateBR()
-        register.updateDVD()
-        register.updateVHS()
+        self.popup = PopUpWindow(edit=True)
+        self.popup.exec_()
+        
+    def btn_remove_action(self):
+        """..."""
+        self.remove_value = self.spinbox.value()
+        if selectedFormat == "Blueray":
+            model.lista_BR.pop(int(self.remove_value)-1)
+        elif selectedFormat == "DVD":
+            model.lista_DVD.pop(int(self.remove_value)-1)
+        elif selectedFormat == "VHS":
+            model.lista_VHS.pop(int(self.remove_value)-1)
+        self.updateBR()
+        self.updateDVD()
+        self.updateVHS()
+        model.set_saveBR()
+        model.set_saveDVD()
+        model.set_saveVHS()
+  
         
     def run(self):
         self.show()
@@ -164,14 +188,16 @@ class Register(QMainWindow):
 register = Register()
 
 class PopUpWindow(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, edit=False):
         super(PopUpWindow, self).__init__(parent)
         self.setGeometry(300, 30, 700, 600)
+        self.edit = edit
         self.dialogUI()
         self.setWindowTitle(selectedFormat)
         
         
     def dialogUI(self):
+        
         self.Dlayout = QGridLayout(self)
         self.Dlayout.setSpacing(10)
                 
@@ -183,19 +209,37 @@ class PopUpWindow(QDialog):
         self.addDirectorText = QLineEdit()
         self.addYear = QLabel("Year: ")
         self.addYearText = QLineEdit()
-        
         if selectedFormat == "DVD":
             self.addUnique = QLabel("Length: ")
         elif selectedFormat == "Blueray":
             self.addUnique = QLabel("Resolution: ")
         elif selectedFormat == "VHS":
             self.addUnique = QLabel("Color?: ")
-        
         self.addUniqueText = QLineEdit()
-            
+        
+        if self.edit == True:
+            if selectedFormat == "Blueray":
+                self.addNameText.setText(model.lista_BR[register.spinbox.value()-1].name)
+                self.addGenreText.setText(model.lista_BR[register.spinbox.value()-1].genre)
+                self.addDirectorText.setText(model.lista_BR[register.spinbox.value()-1].director)
+                self.addYearText.setText(model.lista_BR[register.spinbox.value()-1].year)
+                self.addUniqueText.setText(model.lista_BR[register.spinbox.value()-1].resolution)
+            if selectedFormat == "DVD":
+                self.addNameText.setText(model.lista_DVD[register.spinbox.value()-1].name)
+                self.addGenreText.setText(model.lista_DVD[register.spinbox.value()-1].genre)
+                self.addDirectorText.setText(model.lista_DVD[register.spinbox.value()-1].director)
+                self.addYearText.setText(model.lista_DVD[register.spinbox.value()-1].year)
+                self.addUniqueText.setText(model.lista_DVD[register.spinbox.value()-1].length)
+            if selectedFormat == "VHS":
+                self.addNameText.setText(model.lista_VHS[register.spinbox.value()-1].name)
+                self.addGenreText.setText(model.lista_VHS[register.spinbox.value()-1].genre)
+                self.addDirectorText.setText(model.lista_VHS[register.spinbox.value()-1].director)
+                self.addYearText.setText(model.lista_VHS[register.spinbox.value()-1].year)
+                self.addUniqueText.setText(model.lista_VHS[register.spinbox.value()-1].color)
+        
         self.btnQDialog = QPushButton("Add", self)
         self.btnQDialog.clicked.connect(self.btnQDialog_action)
-            
+        
         self.Dlayout.addWidget(self.addName, 1, 0)
         self.Dlayout.addWidget(self.addNameText, 1, 1)
         self.Dlayout.addWidget(self.addGenre, 2, 0)
@@ -215,7 +259,15 @@ class PopUpWindow(QDialog):
         self.stringYear = str(self.addYearText.text())
         self.stringUnique = str(self.addUniqueText.text())
         
-        model.create_item(selectedFormat, self.stringUnique, self.stringName, self.stringGenre, self.stringDirector, self.stringYear)
+        if self.edit == False:
+            model.create_item(selectedFormat, self.stringUnique, self.stringName, \
+            self.stringGenre, self.stringDirector, self.stringYear)
+
+        elif self.edit == True:
+            model.edit_item(selectedFormat, self.stringUnique, self.stringName, \
+            self.stringGenre, self.stringDirector, self.stringYear, register.spinbox.value()-1)
+            
+        
         register.updateBR()
         register.updateDVD()
         register.updateVHS()
