@@ -27,6 +27,9 @@ class DVD(Item):
         "Genre": self.genre, "Director": self.director, \
         "Year": self.year, "Length": self.length})
         
+    def __str__(self):
+        return(self.name+";"+self.genre+";"+self.director+";"+self.year+";"+self.length+";"+"\n")
+        
 class BR(Item):
     """..."""
     def __init__(self, resolution, name, genre, director, year):
@@ -40,13 +43,16 @@ class BR(Item):
         return({"type": self.movie_type, "Name": self.name, \
         "Genre": self.genre, "Director": self.director, \
         "Year": self.year, "Resolution": self.resolution})
+    
+    def __str__(self):
+        return(self.name+";"+self.genre+";"+self.director+";"+self.year+";"+self.resolution+";"+"\n")
 
 class VHS(Item):
     """..."""
     def __init__(self, color, name, genre, director, year):
         """..."""
         super().__init__(name, genre, director, year)
-        self.movie_type = "DVD"
+        self.movie_type = "VHS"
         self.color = color
         
     def info(self):
@@ -54,6 +60,9 @@ class VHS(Item):
         return({"type": self.movie_type, "Name": self.name, \
         "Genre": self.genre, "Director": self.director, \
         "Year": self.year, "Color": self.color})
+        
+    def __str__(self):
+        return(self.name+";"+self.genre+";"+self.director+";"+self.year+";"+self.color+";"+"\n")
     
 def main():
     item = DVD("3h", "Shrek the third", "Animation", "Chris Miller", "2007")
