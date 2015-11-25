@@ -30,8 +30,15 @@ class Register(QMainWindow):
         
         #Creates a Vertical boxlayout 
         self.layout = QVBoxLayout()
-        self.layout.addWidget(QLabel("Format"+2*"\t"+"Name"+2*"\t"+\
-        "Genre"+2*"\t"+"Director"+2*"\t"+"Year"+2*"\t"+"Res, Length or Color"))
+        self.label_layout = QGridLayout()
+        self.layout.addLayout(self.label_layout)
+        self.label_layout.setSpacing(10)
+        self.label_layout.addWidget(QLabel("Format"), 1, 0)
+        self.label_layout.addWidget(QLabel("Name"), 1, 1)
+        self.label_layout.addWidget(QLabel("Genre"), 1, 2)
+        self.label_layout.addWidget(QLabel("Director"), 1, 3)
+        self.label_layout.addWidget(QLabel("Year"), 1, 4)
+        self.label_layout.addWidget(QLabel("Res, Length or Color"), 1, 5)
         
         #Creates a topmenu
         self.topmenu = self.menuBar()
