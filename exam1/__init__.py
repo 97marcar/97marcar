@@ -24,6 +24,7 @@ class Register(QMainWindow):
         """Here you create every GUI component(everything you is see)"""
         #creates a QWidget
         self.frame = QWidget(self) 
+        
         #set the Central Widget to the QWidget
         self.setCentralWidget(self.frame)
         
@@ -31,6 +32,7 @@ class Register(QMainWindow):
         self.layout = QVBoxLayout()
         self.layout.addWidget(QLabel("Format"+2*"\t"+"Name"+2*"\t"+\
         "Genre"+2*"\t"+"Director"+2*"\t"+"Year"+2*"\t"+"Res, Length or Color"))
+        
         #Creates a topmenu
         self.topmenu = self.menuBar()
         self.about = self.topmenu.addMenu("About")
@@ -94,17 +96,7 @@ class PopUpWindow(QDialog):
         
     def dialogUI(self):
         self.Dlayout = QGridLayout(self)
-        pos = [(0, 0), (0, 1),
-               (1, 0), (1, 1),
-                (2, 0), (2, 2),
-                (3, 0), (3, 3),
-                (4, 0), (4, 4),
-                (5, 0), (5, 5),
-                (6, 0), (6, 6),
-                (7, 0), (7, 7),
-                (8, 0), (8, 8),
-                (9, 0), (9, 9),
-                (10, 0), (10, 10)]
+        self.Dlayout.setSpacing(10)
                 
         self.addName = QLabel("Name: ")
         self.addNameText = QLineEdit()
@@ -127,17 +119,17 @@ class PopUpWindow(QDialog):
         self.btnQDialog = QPushButton("Add", self)
         self.btnQDialog.clicked.connect(self.btnQDialog_action)
             
-        self.Dlayout.addWidget(self.addName, pos[0][0], pos[0][1])
-        self.Dlayout.addWidget(self.addNameText, pos[1][0], pos[1][1])
-        self.Dlayout.addWidget(self.addGenre, pos[2][0], pos[0][1])
-        self.Dlayout.addWidget(self.addGenreText, pos[2][0], pos[1][1])  
-        self.Dlayout.addWidget(self.addDirector, pos[4][0], pos[0][1])
-        self.Dlayout.addWidget(self.addDirectorText, pos[4][0], pos[1][1])  
-        self.Dlayout.addWidget(self.addYear, pos[6][0], pos[0][1])
-        self.Dlayout.addWidget(self.addYearText, pos[6][0], pos[1][1])  
-        self.Dlayout.addWidget(self.addUnique, pos[8][0], pos[0][1])
-        self.Dlayout.addWidget(self.addUniqueText, pos[8][0], pos[1][1])
-        self.Dlayout.addWidget(self.btnQDialog, pos[10][0], pos[1][1])
+        self.Dlayout.addWidget(self.addName, 1, 0)
+        self.Dlayout.addWidget(self.addNameText, 1, 1)
+        self.Dlayout.addWidget(self.addGenre, 2, 0)
+        self.Dlayout.addWidget(self.addGenreText, 2, 1)  
+        self.Dlayout.addWidget(self.addDirector, 3, 0)
+        self.Dlayout.addWidget(self.addDirectorText, 3, 1)  
+        self.Dlayout.addWidget(self.addYear, 4, 0)
+        self.Dlayout.addWidget(self.addYearText, 4, 1)  
+        self.Dlayout.addWidget(self.addUnique, 5, 0)
+        self.Dlayout.addWidget(self.addUniqueText, 5, 1)
+        self.Dlayout.addWidget(self.btnQDialog, 6, 1)
 
     def btnQDialog_action(self):
         self.stringName = str(self.addNameText.text())
