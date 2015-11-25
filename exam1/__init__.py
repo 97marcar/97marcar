@@ -43,13 +43,17 @@ class Register(QMainWindow):
         self.layout.addLayout(self.gridlayout)
         self.gridlayout.setSpacing(10)
         
+        self.search = QLineEdit()
+        self.gridlayout.addWidget(QLabel("\t\tSearch:"), 1, 4)
+        self.gridlayout.addWidget(self.search, 1, 5)
+        
         #Adds the objects to the gridlayout
-        self.gridlayout.addWidget(QLabel("Format"), 1, 0)
-        self.gridlayout.addWidget(QLabel("Name"), 1, 1)
-        self.gridlayout.addWidget(QLabel("Genre"), 1, 2)
-        self.gridlayout.addWidget(QLabel("Director"), 1, 3)
-        self.gridlayout.addWidget(QLabel("Year"), 1, 4)
-        self.gridlayout.addWidget(QLabel("Res, Length or Color"), 1, 5)
+        self.gridlayout.addWidget(QLabel("Format"), 2, 0)
+        self.gridlayout.addWidget(QLabel("Name"), 2, 1)
+        self.gridlayout.addWidget(QLabel("Genre"), 2, 2)
+        self.gridlayout.addWidget(QLabel("Director"), 2, 3)
+        self.gridlayout.addWidget(QLabel("Year"), 2, 4)
+        self.gridlayout.addWidget(QLabel("Res, Length or Color"), 2, 5)
         
         #Creates a topmenu
         self.topmenu = self.menuBar()
@@ -66,12 +70,12 @@ class Register(QMainWindow):
         self.mainWindow5 = QTextEdit()
         
         #adds the mainWindow to the layout
-        self.gridlayout.addWidget(self.mainWindow0, 2, 0)
-        self.gridlayout.addWidget(self.mainWindow1, 2, 1)
-        self.gridlayout.addWidget(self.mainWindow2, 2, 2)
-        self.gridlayout.addWidget(self.mainWindow3, 2, 3)
-        self.gridlayout.addWidget(self.mainWindow4, 2, 4)
-        self.gridlayout.addWidget(self.mainWindow5, 2, 5)
+        self.gridlayout.addWidget(self.mainWindow0, 3, 0)
+        self.gridlayout.addWidget(self.mainWindow1, 3, 1)
+        self.gridlayout.addWidget(self.mainWindow2, 3, 2)
+        self.gridlayout.addWidget(self.mainWindow3, 3, 3)
+        self.gridlayout.addWidget(self.mainWindow4, 3, 4)
+        self.gridlayout.addWidget(self.mainWindow5, 3, 5)
         self.mainWindow0.setReadOnly(True)
         self.mainWindow1.setReadOnly(True)
         self.mainWindow2.setReadOnly(True)
@@ -88,25 +92,25 @@ class Register(QMainWindow):
         self.dropDown.addItem("Blueray")
         self.dropDown.addItem("DVD")
         self.dropDown.addItem("VHS")
-        self.gridlayout.addWidget(self.dropDown, 3, 0)
+        self.gridlayout.addWidget(self.dropDown, 4, 0)
         self.dropDown.activated[str].connect(self.whenActivated)
         
         #Creates the "Add" button to the window
         self.btn_add = QPushButton('Add', self)
         self.btn_add.clicked.connect(self.btn_add_action)
-        self.gridlayout.addWidget(self.btn_add,3, 1)
+        self.gridlayout.addWidget(self.btn_add, 4, 1)
         
         self.spinbox = QSpinBox()
         self.spinbox.setMaximum(9999)
-        self.gridlayout.addWidget(self.spinbox, 3, 2)        
+        self.gridlayout.addWidget(self.spinbox, 4, 2)        
         
         self.btn_edit = QPushButton('Edit', self)
         self.btn_edit.clicked.connect(self.btn_edit_action)
-        self.gridlayout.addWidget(self.btn_edit, 3, 3)
+        self.gridlayout.addWidget(self.btn_edit, 4, 3)
         
         self.btn_remove = QPushButton('Remove', self)
         self.btn_remove.clicked.connect(self.btn_remove_action)
-        self.gridlayout.addWidget(self.btn_remove, 3, 4)
+        self.gridlayout.addWidget(self.btn_remove, 4, 4)
         
         
     def whenActivated(self, itemFormat):
