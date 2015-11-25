@@ -18,6 +18,12 @@ class Register(QMainWindow):
         self.setWindowTitle("Register")
         self.setGeometry(300, 30, 700, 600)
         self.initUI()
+        model.get_saveBR()
+        model.get_saveDVD()
+        model.get_saveVHS()
+        self.updateBR()
+        self.updateDVD()
+        self.updateVHS()
         
     
     def initUI(self):
@@ -30,9 +36,13 @@ class Register(QMainWindow):
         
         #Creates a Vertical boxlayout 
         self.layout = QVBoxLayout()
+        
+        #Creates a gridlayout and adds it to the VBoxLayout
         self.label_layout = QGridLayout()
         self.layout.addLayout(self.label_layout)
         self.label_layout.setSpacing(10)
+        
+        #Adds the objects to the gridlayout
         self.label_layout.addWidget(QLabel("Format"), 1, 0)
         self.label_layout.addWidget(QLabel("Name"), 1, 1)
         self.label_layout.addWidget(QLabel("Genre"), 1, 2)
@@ -47,11 +57,27 @@ class Register(QMainWindow):
         self.about.addAction(self.aboutText)
         
         #Creates a Text Edit window(can come to change)
-        self.mainWindow = QTextEdit()
+        self.mainWindow0 = QTextEdit()
+        self.mainWindow1 = QTextEdit()
+        self.mainWindow2 = QTextEdit()
+        self.mainWindow3 = QTextEdit()
+        self.mainWindow4 = QTextEdit()
+        self.mainWindow5 = QTextEdit()
         
         #adds the mainWindow to the layout
-        self.layout.addWidget(self.mainWindow)
-        self.mainWindow.setReadOnly(True)
+        self.label_layout.addWidget(self.mainWindow0, 2, 0)
+        self.label_layout.addWidget(self.mainWindow1, 2, 1)
+        self.label_layout.addWidget(self.mainWindow2, 2, 2)
+        self.label_layout.addWidget(self.mainWindow3, 2, 3)
+        self.label_layout.addWidget(self.mainWindow4, 2, 4)
+        self.label_layout.addWidget(self.mainWindow5, 2, 5)
+        self.mainWindow0.setReadOnly(True)
+        self.mainWindow1.setReadOnly(True)
+        self.mainWindow2.setReadOnly(True)
+        self.mainWindow3.setReadOnly(True)
+        self.mainWindow4.setReadOnly(True)
+        self.mainWindow5.setReadOnly(True)
+
         
         #Applies the layout to the frame
         self.frame.setLayout(self.layout)
@@ -69,23 +95,67 @@ class Register(QMainWindow):
         self.btn_add.clicked.connect(self.btn_add_action)
         self.layout.addWidget(self.btn_add)
         
+        self.btn_restore = QPushButton('restore', self)
+        self.btn_restore.clicked.connect(self.btn_restore_action)
+        self.layout.addWidget(self.btn_restore)
+        
     def whenActivated(self, itemFormat):
         global selectedFormat
         selectedFormat = itemFormat
         
-    def update(self):
-        self.mainWindow.clear()
-        lista = model.get_item()
+    def updateBR(self):
+        self.mainWindow0.clear()
+        self.mainWindow1.clear()
+        self.mainWindow2.clear()
+        self.mainWindow3.clear()
+        self.mainWindow4.clear()
+        self.mainWindow5.clear()
+        
+        lista = model.get_itemsBR()
+            
         for item in lista:
-            self.mainWindow.append(item.movie_type + "\t" + \
-            item.name + "\t" + item.genre + "\t" + \
-            item.director + "\t" + item.year + "\t" + \
-            item.resolution)
+            self.mainWindow0.append(item.movie_type)
+            self.mainWindow1.append(item.name) 
+            self.mainWindow2.append(item.genre)
+            self.mainWindow3.append(item.director)
+            self.mainWindow4.append(item.year)
+            self.mainWindow5.append(item.resolution)
+    
+    def updateDVD(self):        
+        lista = model.get_itemsDVD()
+            
+        for item in lista:
+            self.mainWindow0.append(item.movie_type)
+            self.mainWindow1.append(item.name) 
+            self.mainWindow2.append(item.genre)
+            self.mainWindow3.append(item.director)
+            self.mainWindow4.append(item.year)
+            self.mainWindow5.append(item.length)
+            
+    def updateVHS(self):        
+        lista = model.get_itemsVHS()
+            
+        for item in lista:
+            self.mainWindow0.append(item.movie_type)
+            self.mainWindow1.append(item.name) 
+            self.mainWindow2.append(item.genre)
+            self.mainWindow3.append(item.director)
+            self.mainWindow4.append(item.year)
+            self.mainWindow5.append(item.color)
          
     def btn_add_action(self):
         """..."""
         self.popup = PopUpWindow()
         self.popup.exec_()
+        
+    def btn_restore_action(self):
+        """..."""
+        model.get_saveBR()
+        model.get_saveDVD()
+        model.get_saveVHS()
+        register.updateBR()
+        register.updateDVD()
+        register.updateVHS()
         
     def run(self):
         self.show()
@@ -146,7 +216,12 @@ class PopUpWindow(QDialog):
         self.stringUnique = str(self.addUniqueText.text())
         
         model.create_item(selectedFormat, self.stringUnique, self.stringName, self.stringGenre, self.stringDirector, self.stringYear)
-        register.update()
+        register.updateBR()
+        register.updateDVD()
+        register.updateVHS()
+        model.set_saveBR()
+        model.set_saveDVD()
+        model.set_saveVHS()
         
      
         
