@@ -11,6 +11,7 @@ class Model:
         
             
     def create_item(self, movie_type, unique, name, genre, director, year):
+        """Creates an item from the item.py and adds them to a list"""
         if movie_type == "DVD":
             self.dvd = DVD(unique, name, genre, director, year)
             self.lista_DVD.append(self.dvd)
@@ -25,6 +26,7 @@ class Model:
             print(self.vhs.info())
             
     def edit_item(self, movie_type, unique, name, genre, director, year, index):
+        """Edits a selected item"""
         if movie_type == "DVD":
             self.lista_DVD[index] = DVD(unique, name, genre, director, year)
         if movie_type == "Blueray":
@@ -33,16 +35,20 @@ class Model:
             self.lista_VHS[index] = VHS(unique, name, genre, director, year)
             
     def get_itemsBR(self):
+        """returns the Blueraylist"""
         return self.lista_BR
         
         
     def get_itemsDVD(self):
+        """returns the DVDlist"""
         return self.lista_DVD
         
     def get_itemsVHS(self):
+        """returns the VHSlist"""
         return self.lista_VHS
         
     def set_saveBR(self):
+        """Saves the Bluraylist"""
         try:
             file = open("./saveBR.csv", "w")
         except:
@@ -54,6 +60,7 @@ class Model:
             file.close() 
             
     def get_saveBR(self):
+        """Gets the saved BR-movies and adds them back to list"""
         try:        
             file = open("./saveBR.csv", "r")
         except:
@@ -66,6 +73,7 @@ class Model:
             file.close()
             
     def set_saveDVD(self):
+        """Saves the DVDlist"""
         try:
             file = open("./saveDVD.csv", "w")
         except:
@@ -77,6 +85,7 @@ class Model:
             file.close() 
             
     def get_saveDVD(self):
+        """Gets the saved DVD-movies and adds them back to list"""
         try:        
             file = open("./saveDVD.csv", "r")
         except:
@@ -89,6 +98,7 @@ class Model:
             file.close()
             
     def set_saveVHS(self):
+        """Saves the VHSlist"""
         try:
             file = open("./saveVHS.csv", "w")
         except:
@@ -100,6 +110,7 @@ class Model:
             file.close() 
             
     def get_saveVHS(self):
+        """Gets the saved VHS-movies and adds them back to list"""
         try:        
             file = open("./saveVHS.csv", "r")
         except:
