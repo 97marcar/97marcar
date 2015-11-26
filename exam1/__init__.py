@@ -217,9 +217,12 @@ class PopUpWindow(QDialog):
         
     def dialogUI(self):
         """Here the GUI is created for the PopUpWindow"""
+        
+        #Creates a Gridlayout
         self.Dlayout = QGridLayout(self)
         self.Dlayout.setSpacing(10)
-                
+        
+        #Creates all the QLabels and the LineEdits that belongs to them
         self.addName = QLabel("Name: ")
         self.addNameText = QLineEdit()
         self.addGenre = QLabel("Genre: ")
@@ -236,6 +239,8 @@ class PopUpWindow(QDialog):
             self.addUnique = QLabel("Color?: ")
         self.addUniqueText = QLineEdit()
         
+        #If you wish to edit a movie the LineEdits will be filled with
+        #the text of the movie you want to edit thanks to this.
         if self.edit == True:
             if selectedFormat == "Blueray":
                 self.addNameText.setText(model.lista_BR[register.spinbox.value()-1].name)
@@ -256,9 +261,15 @@ class PopUpWindow(QDialog):
                 self.addYearText.setText(model.lista_VHS[register.spinbox.value()-1].year)
                 self.addUniqueText.setText(model.lista_VHS[register.spinbox.value()-1].color)
         
-        self.btnQDialog = QPushButton("Add", self)
+        #Depending if you want to add or edit a movie different names have been given
+        #to the button that applies the action.
+        if self.edit == True:
+            self.btnQDialog = QPushButton("Edit", self)
+        else:
+            self.btnQDialog = QPushButton("Add", self)  
         self.btnQDialog.clicked.connect(self.btnQDialog_action)
         
+        #Adds all the widgets created to the layout
         self.Dlayout.addWidget(self.addName, 1, 0)
         self.Dlayout.addWidget(self.addNameText, 1, 1)
         self.Dlayout.addWidget(self.addGenre, 2, 0)
@@ -272,21 +283,27 @@ class PopUpWindow(QDialog):
         self.Dlayout.addWidget(self.btnQDialog, 6, 1)
 
     def btnQDialog_action(self):
+        """Controlls what the button of the window does, Add or Edit a movie"""
+        
+        #Takes the value from the LineEdits and saves them in new variables
         self.stringName = str(self.addNameText.text())
         self.stringGenre = str(self.addGenreText.text())
         self.stringDirector = str(self.addDirectorText.text())
         self.stringYear = str(self.addYearText.text())
         self.stringUnique = str(self.addUniqueText.text())
         
+        #Creates an item based on the LineEdits values
         if self.edit == False:
             model.create_item(selectedFormat, self.stringUnique, self.stringName, \
             self.stringGenre, self.stringDirector, self.stringYear)
-
+        
+        #Edits an item based on the LineEdits values, the registers spinbox value
+        #and selectedFormat
         elif self.edit == True:
             model.edit_item(selectedFormat, self.stringUnique, self.stringName, \
             self.stringGenre, self.stringDirector, self.stringYear, register.spinbox.value()-1)
             
-        
+        #Runs the updates and the saves
         register.updateBR()
         register.updateDVD()
         register.updateVHS()
