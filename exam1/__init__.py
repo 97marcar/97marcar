@@ -28,6 +28,7 @@ class Register(QMainWindow):
         self.updateVHS()
         
         
+        
     
     def initUI(self):
         """Here you create every GUI component(everything you is see)"""
@@ -187,7 +188,8 @@ class Register(QMainWindow):
                 self.mainWindow4.append(item.year)
                 self.mainWindow5.append(item.resolution)
         for item in listaDVD:
-            if text in item.name:
+            if text in item.name or text in item.genre or text in item.director or \
+            text in item.year or text in item.length:
                 self.mainWindow0.append(item.movie_type)
                 self.mainWindow1.append(item.name) 
                 self.mainWindow2.append(item.genre)
@@ -195,7 +197,8 @@ class Register(QMainWindow):
                 self.mainWindow4.append(item.year)
                 self.mainWindow5.append(item.length)
         for item in listaVHS:
-            if text in item.name:
+            if text in item.name or text in item.genre or text in item.director or \
+            text in item.year or text in item.color:
                 self.mainWindow0.append(item.movie_type)
                 self.mainWindow1.append(item.name) 
                 self.mainWindow2.append(item.genre)
@@ -219,12 +222,20 @@ class Register(QMainWindow):
         selectedFormat you have it removes an item from that list"""
         self.remove_value = self.spinbox.value()
         if selectedFormat == "Blueray":
-            model.lista_BR.pop(int(self.remove_value)-1)
+            try:
+                model.lista_BR.pop(int(self.remove_value)-1)
+            except IndexError:
+                pass
         elif selectedFormat == "DVD":
-            model.lista_DVD.pop(int(self.remove_value)-1)
+            try:
+                model.lista_DVD.pop(int(self.remove_value)-1)
+            except IndexError:
+                pass
         elif selectedFormat == "VHS":
-            model.lista_VHS.pop(int(self.remove_value)-1)
-        
+            try:
+                model.lista_VHS.pop(int(self.remove_value)-1)
+            except IndexError:
+                pass
         self.clear_mainWindows()
         self.updateBR()
         self.updateDVD()
@@ -257,8 +268,8 @@ class PopUpWindow(QDialog):
         """Here the GUI is created for the PopUpWindow"""
         
         #Creates a Gridlayout
-        self.Dlayout = QGridLayout(self)
-        self.Dlayout.setSpacing(10)
+        self.dialog_layout = QGridLayout(self)
+        self.dialog_layout.setSpacing(10)
         
         #Creates all the QLabels and the LineEdits that belongs to them
         self.addName = QLabel("Name: ")
@@ -276,6 +287,7 @@ class PopUpWindow(QDialog):
         elif selectedFormat == "VHS":
             self.addUnique = QLabel("Color?: ")
         self.addUniqueText = QLineEdit()
+        self.infoLabel = QLabel("Please enter movie information")
         
         #If you wish to edit a movie the LineEdits will be filled with
         #the text of the movie you want to edit thanks to this.
@@ -304,21 +316,24 @@ class PopUpWindow(QDialog):
         if self.edit == True:
             self.btnQDialog = QPushButton("Edit", self)
         else:
-            self.btnQDialog = QPushButton("Add", self)  
+            self.btnQDialog = QPushButton("Add", self)
+        
+        
         self.btnQDialog.clicked.connect(self.btnQDialog_action)
         
         #Adds all the widgets created to the layout
-        self.Dlayout.addWidget(self.addName, 1, 0)
-        self.Dlayout.addWidget(self.addNameText, 1, 1)
-        self.Dlayout.addWidget(self.addGenre, 2, 0)
-        self.Dlayout.addWidget(self.addGenreText, 2, 1)  
-        self.Dlayout.addWidget(self.addDirector, 3, 0)
-        self.Dlayout.addWidget(self.addDirectorText, 3, 1)  
-        self.Dlayout.addWidget(self.addYear, 4, 0)
-        self.Dlayout.addWidget(self.addYearText, 4, 1)  
-        self.Dlayout.addWidget(self.addUnique, 5, 0)
-        self.Dlayout.addWidget(self.addUniqueText, 5, 1)
-        self.Dlayout.addWidget(self.btnQDialog, 6, 1)
+        self.dialog_layout.addWidget(self.addName, 1, 0)
+        self.dialog_layout.addWidget(self.addNameText, 1, 1)
+        self.dialog_layout.addWidget(self.addGenre, 2, 0)
+        self.dialog_layout.addWidget(self.addGenreText, 2, 1)  
+        self.dialog_layout.addWidget(self.addDirector, 3, 0)
+        self.dialog_layout.addWidget(self.addDirectorText, 3, 1)  
+        self.dialog_layout.addWidget(self.addYear, 4, 0)
+        self.dialog_layout.addWidget(self.addYearText, 4, 1)  
+        self.dialog_layout.addWidget(self.addUnique, 5, 0)
+        self.dialog_layout.addWidget(self.addUniqueText, 5, 1)
+        self.dialog_layout.addWidget(self.infoLabel, 6, 0)
+        self.dialog_layout.addWidget(self.btnQDialog, 6, 1)
 
     def btnQDialog_action(self):
         """Controlls what the button of the window does, Add or Edit a movie"""
@@ -331,15 +346,28 @@ class PopUpWindow(QDialog):
         self.stringUnique = str(self.addUniqueText.text())
         
         #Creates an item based on the LineEdits values
-        if self.edit == False:
+        if self.edit == False:  
             model.create_item(selectedFormat, self.stringUnique, self.stringName, \
             self.stringGenre, self.stringDirector, self.stringYear)
+            if model.yearfalsecheck == True and model.colorfalsecheck == True:
+                self.close()
+            if model.colorfalsecheck == False:
+                self.infoLabel.setText('"Color?" must be yes/no')
+            if model.yearfalsecheck == False:
+                self.infoLabel.setText('year" must be between 1896 and 2020')
+
         
         #Edits an item based on the LineEdits values, the registers spinbox value
         #and selectedFormat
         elif self.edit == True:
             model.edit_item(selectedFormat, self.stringUnique, self.stringName, \
             self.stringGenre, self.stringDirector, self.stringYear, register.spinbox.value()-1)
+            if model.yearfalsecheck == True and model.colorfalsecheck == True:
+                self.close()
+            if model.colorfalsecheck == False:
+                self.infoLabel.setText('"Color?" must be yes/no')
+            if model.yearfalsecheck == False:
+                self.infoLabel.setText('year" must be between 1896 and 2020')
             
         #Clears then runs the updates and the saves
         register.clear_mainWindows()
