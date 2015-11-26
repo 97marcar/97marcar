@@ -22,6 +22,7 @@ class Register(QMainWindow):
         model.get_saveBR()
         model.get_saveDVD()
         model.get_saveVHS()
+        self.clear_mainWindows()
         self.updateBR()
         self.updateDVD()
         self.updateVHS()
@@ -48,6 +49,7 @@ class Register(QMainWindow):
         self.search = QLineEdit()
         self.gridlayout.addWidget(QLabel("\t\tSearch:"), 1, 4)
         self.gridlayout.addWidget(self.search, 1, 5)
+        self.search.returnPressed.connect(self.search_action)
         
         #Adds the objects to the gridlayout
         self.gridlayout.addWidget(QLabel("Format"), 2, 0)
@@ -123,9 +125,8 @@ class Register(QMainWindow):
         global selectedFormat
         selectedFormat = itemFormat
         
-    def updateBR(self):
-        """Clears then applies the new movie(and the old once too)
-        to the mainwindows"""
+    def clear_mainWindows(self):
+        """clears all of the main windows"""
         self.mainWindow0.clear()
         self.mainWindow1.clear()
         self.mainWindow2.clear()
@@ -133,6 +134,8 @@ class Register(QMainWindow):
         self.mainWindow4.clear()
         self.mainWindow5.clear()
         
+    def updateBR(self):
+        """Applies the new (and old) Blueray movies to the mainwindows"""        
         lista = model.get_itemsBR()
             
         for item in lista:
@@ -156,7 +159,7 @@ class Register(QMainWindow):
             self.mainWindow5.append(item.length)
             
     def updateVHS(self):
-        """Applies the new (and old) DVD movies to the mainwindows"""        
+        """Applies the new (and old) VHS movies to the mainwindows"""        
         lista = model.get_itemsVHS()
             
         for item in lista:
@@ -166,7 +169,40 @@ class Register(QMainWindow):
             self.mainWindow3.append(item.director)
             self.mainWindow4.append(item.year)
             self.mainWindow5.append(item.color)
-         
+            
+    def search_action(self):
+        """Search the lists and appends the found results to the mainWindow"""
+        text = self.search.text()
+        self.clear_mainWindows()
+        listaBR = model.get_itemsBR()
+        listaDVD = model.get_itemsDVD()
+        listaVHS = model.get_itemsVHS()
+        for item in listaBR:
+            if text in item.name or text in item.genre or text in item.director or \
+            text in item.year or text in item.resolution:
+                self.mainWindow0.append(item.movie_type)
+                self.mainWindow1.append(item.name) 
+                self.mainWindow2.append(item.genre)
+                self.mainWindow3.append(item.director)
+                self.mainWindow4.append(item.year)
+                self.mainWindow5.append(item.resolution)
+        for item in listaDVD:
+            if text in item.name:
+                self.mainWindow0.append(item.movie_type)
+                self.mainWindow1.append(item.name) 
+                self.mainWindow2.append(item.genre)
+                self.mainWindow3.append(item.director)
+                self.mainWindow4.append(item.year)
+                self.mainWindow5.append(item.length)
+        for item in listaVHS:
+            if text in item.name:
+                self.mainWindow0.append(item.movie_type)
+                self.mainWindow1.append(item.name) 
+                self.mainWindow2.append(item.genre)
+                self.mainWindow3.append(item.director)
+                self.mainWindow4.append(item.year)
+                self.mainWindow5.append(item.color)
+            
     def btn_add_action(self):
         """Creates a object out of the PopUpWindow Class"""
         self.popup = PopUpWindow()
@@ -188,6 +224,8 @@ class Register(QMainWindow):
             model.lista_DVD.pop(int(self.remove_value)-1)
         elif selectedFormat == "VHS":
             model.lista_VHS.pop(int(self.remove_value)-1)
+        
+        self.clear_mainWindows()
         self.updateBR()
         self.updateDVD()
         self.updateVHS()
@@ -303,7 +341,8 @@ class PopUpWindow(QDialog):
             model.edit_item(selectedFormat, self.stringUnique, self.stringName, \
             self.stringGenre, self.stringDirector, self.stringYear, register.spinbox.value()-1)
             
-        #Runs the updates and the saves
+        #Clears then runs the updates and the saves
+        register.clear_mainWindows()
         register.updateBR()
         register.updateDVD()
         register.updateVHS()
