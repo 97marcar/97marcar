@@ -11,6 +11,7 @@ model = Model()
 selectedFormat = "Blueray"
 
 class Register(QMainWindow):
+    """A class that creates the main window for a register"""
     
     def __init__(self, parent=None):
         """The constructor of the Register class, the main class."""
@@ -43,6 +44,7 @@ class Register(QMainWindow):
         self.layout.addLayout(self.gridlayout)
         self.gridlayout.setSpacing(10)
         
+        #Adds the search label and lineedit        
         self.search = QLineEdit()
         self.gridlayout.addWidget(QLabel("\t\tSearch:"), 1, 4)
         self.gridlayout.addWidget(self.search, 1, 5)
@@ -100,24 +102,30 @@ class Register(QMainWindow):
         self.btn_add.clicked.connect(self.btn_add_action)
         self.gridlayout.addWidget(self.btn_add, 4, 1)
         
+        #Creates spinbox and adds it to the layout
         self.spinbox = QSpinBox()
         self.spinbox.setMaximum(9999)
         self.gridlayout.addWidget(self.spinbox, 4, 2)        
         
+        #Creates a edit button and adds it to the layout
         self.btn_edit = QPushButton('Edit', self)
         self.btn_edit.clicked.connect(self.btn_edit_action)
         self.gridlayout.addWidget(self.btn_edit, 4, 3)
         
+        #Creates a remove button and adds it to the layout
         self.btn_remove = QPushButton('Remove', self)
         self.btn_remove.clicked.connect(self.btn_remove_action)
         self.gridlayout.addWidget(self.btn_remove, 4, 4)
         
         
     def whenActivated(self, itemFormat):
+        """Changes selectedFormat to itemFormat"""
         global selectedFormat
         selectedFormat = itemFormat
         
     def updateBR(self):
+        """Clears then applies the new movie(and the old once too)
+        to the mainwindows"""
         self.mainWindow0.clear()
         self.mainWindow1.clear()
         self.mainWindow2.clear()
@@ -135,7 +143,8 @@ class Register(QMainWindow):
             self.mainWindow4.append(item.year)
             self.mainWindow5.append(item.resolution)
     
-    def updateDVD(self):        
+    def updateDVD(self):
+        """Applies the new (and old) DVD movies to the mainwindows"""        
         lista = model.get_itemsDVD()
             
         for item in lista:
@@ -146,7 +155,8 @@ class Register(QMainWindow):
             self.mainWindow4.append(item.year)
             self.mainWindow5.append(item.length)
             
-    def updateVHS(self):        
+    def updateVHS(self):
+        """Applies the new (and old) DVD movies to the mainwindows"""        
         lista = model.get_itemsVHS()
             
         for item in lista:
@@ -158,18 +168,19 @@ class Register(QMainWindow):
             self.mainWindow5.append(item.color)
          
     def btn_add_action(self):
-        """..."""
+        """Creates a object out of the PopUpWindow Class"""
         self.popup = PopUpWindow()
-        self.popup.edit = False
         self.popup.exec_()
         
     def btn_edit_action(self):
-        """..."""
+        """Creates a object out of the PopUpWindow Class 
+        with the arugment that edit is True"""
         self.popup = PopUpWindow(edit=True)
         self.popup.exec_()
         
     def btn_remove_action(self):
-        """..."""
+        """Takes the value from the spinbox and depenting on which
+        selectedFormat you have it removes an item from that list"""
         self.remove_value = self.spinbox.value()
         if selectedFormat == "Blueray":
             model.lista_BR.pop(int(self.remove_value)-1)
@@ -186,13 +197,17 @@ class Register(QMainWindow):
   
         
     def run(self):
+        """Starts the program"""
         self.show()
         sys.exit(app.exec_())
         
 register = Register()
 
 class PopUpWindow(QDialog):
+    """A class that creates a popup window where you can add or edit a movie
+    for the register."""
     def __init__(self, parent=None, edit=False):
+        """Constructor of the PopUpWindow"""
         super(PopUpWindow, self).__init__(parent)
         self.setGeometry(300, 30, 700, 600)
         self.edit = edit
@@ -201,7 +216,7 @@ class PopUpWindow(QDialog):
         
         
     def dialogUI(self):
-        
+        """Here the GUI is created for the PopUpWindow"""
         self.Dlayout = QGridLayout(self)
         self.Dlayout.setSpacing(10)
                 
