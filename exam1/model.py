@@ -1,4 +1,4 @@
-
+import test
 from item import *
 class Model:
 
@@ -12,27 +12,46 @@ class Model:
             
     def create_item(self, movie_type, unique, name, genre, director, year):
         """Creates an item from the item.py and adds them to a list"""
-        if movie_type == "DVD":
-            self.dvd = DVD(unique, name, genre, director, year)
-            self.lista_DVD.append(self.dvd)
-            print(self.dvd.info())
-        if movie_type == "Blueray":
-            self.br = BR(unique, name, genre, director, year)
-            self.lista_BR.append(self.br)
-            print(self.br.info())
-        if movie_type == "VHS":
-            self.vhs = VHS(unique, name, genre, director, year)
-            self.lista_VHS.append(self.vhs)
-            print(self.vhs.info())
+        self.colorfalsecheck = True
+        self.yearfalsecheck = True
+        try:
+            if test.check_valid_year(int(year)) == True:
+                if movie_type == "DVD":
+                    self.dvd = DVD(unique, name, genre, director, year)
+                    self.lista_DVD.append(self.dvd)
+                if movie_type == "Blueray":
+                    self.br = BR(unique, name, genre, director, year)
+                    self.lista_BR.append(self.br)
+                if movie_type == "VHS":
+                    if test.check_color_yes_no(str(unique)) == True:
+                        self.vhs = VHS(unique, name, genre, director, year)
+                        self.lista_VHS.append(self.vhs)
+                    else:
+                        self.colorfalsecheck = False
+            else:
+                self.yearfalsecheck = False
+        except ValueError:
+            self.yearfalsecheck = False
             
     def edit_item(self, movie_type, unique, name, genre, director, year, index):
         """Edits a selected item"""
-        if movie_type == "DVD":
-            self.lista_DVD[index] = DVD(unique, name, genre, director, year)
-        if movie_type == "Blueray":
-            self.lista_BR[index] = BR(unique, name, genre, director, year)
-        if movie_type == "VHS":
-            self.lista_VHS[index] = VHS(unique, name, genre, director, year)
+        self.colorfalsecheck = True
+        self.yearfalsecheck = True
+        try:
+            if test.check_valid_year(int(year)) == True:
+                if movie_type == "DVD":
+                    self.lista_DVD[index] = DVD(unique, name, genre, director, year)
+                if movie_type == "Blueray":
+                    self.lista_BR[index] = BR(unique, name, genre, director, year)
+                if movie_type == "VHS":
+                    if test.check_color_yes_no(str(unique)) == True:
+                        self.lista_VHS[index] = VHS(unique, name, genre, director, year)
+                    else:
+                        self.colorfalsecheck = False
+            else:
+                self.yearfalsecheck = False
+        except ValueError:
+            self.yearfalsecheck = False
             
     def get_itemsBR(self):
         """returns the Blueraylist"""
@@ -69,7 +88,7 @@ class Model:
             for line in file:
                 line.strip()
                 item = line.split(";")
-                self.lista_BR.append(BR(item[4], item[1], item[2], item[3], item[0]))
+                self.lista_BR.append(BR(item[4], item[0], item[1], item[2], item[3]))
             file.close()
             
     def set_saveDVD(self):
@@ -94,7 +113,7 @@ class Model:
             for line in file:
                 line.strip()
                 item = line.split(";")
-                self.lista_DVD.append(DVD(item[4], item[1], item[2], item[3], item[0]))
+                self.lista_DVD.append(DVD(item[4], item[0], item[1], item[2], item[3]))
             file.close()
             
     def set_saveVHS(self):
@@ -119,5 +138,5 @@ class Model:
             for line in file:
                 line.strip()
                 item = line.split(";")
-                self.lista_VHS.append(VHS(item[4], item[1], item[2], item[3], item[0]))
+                self.lista_VHS.append(VHS(item[4], item[0], item[1], item[2], item[3]))
             file.close()
